@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Beyond Dashboards: Deploying AI Agents in Real Business Operations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050816;
+      --ink:#f7fbff;
+      --muted:#a9b7ca;
+      --line:rgba(255,255,255,.16);
+      --cyan:#38d5ff;
+      --violet:#9b7cff;
+      --green:#48f2b0;
+      --amber:#ffd166;
+      --rose:#ff5c8a;
+      --glass:rgba(255,255,255,.075);
+      --shadow:0 24px 80px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    body{background:var(--bg);}
+    .reveal{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);font-size:28px;}
+    .reveal .slides{width:100%;height:100%;}
+    .reveal section{padding:34px 48px;text-align:left;}
+    .reveal h1,.reveal h2,.reveal h3{font-family:Inter,sans-serif;letter-spacing:-.04em;text-transform:none;color:var(--ink);margin:0 0 24px;font-weight:900;line-height:.95;}
+    .reveal h1{font-size:82px;max-width:1050px;}
+    .reveal h2{font-size:64px;max-width:1080px;}
+    .reveal h3{font-size:38px;letter-spacing:-.02em;line-height:1.08;}
+    .reveal p{font-size:28px;line-height:1.35;color:var(--muted);margin:0 0 18px;}
+    .reveal strong{color:var(--ink)}
+    .kicker{font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--green);font-weight:800;margin-bottom:18px;}
+    .big{font-size:46px;line-height:1.13;font-weight:800;color:var(--ink);letter-spacing:-.025em;}
+    .sub{font-size:26px;color:var(--muted);max-width:900px;}
+    .tiny{font-size:15px;color:#8090a8;line-height:1.3}
+    .full{height:100%;display:flex;flex-direction:column;justify-content:center;}
+    .center{text-align:center;align-items:center;}
+    .right{text-align:right;align-items:flex-end;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+    .card{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.04));border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow);backdrop-filter:blur(16px);}
+    .flat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:20px;padding:22px;}
+    .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.18);border-radius:99px;padding:10px 16px;background:rgba(255,255,255,.08);font-size:16px;color:var(--ink);font-weight:700;margin-right:8px;}
+    .accent{background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+    .green{color:var(--green)} .cyan{color:var(--cyan)} .amber{color:var(--amber)} .rose{color:var(--rose)}
+    .bg-grid:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(circle at 50% 40%,black 0%,transparent 78%);z-index:-3}
+    .orb{position:absolute;border-radius:50%;filter:blur(24px);opacity:.55;z-index:-2;animation:float 8s ease-in-out infinite alternate;}
+    .orb.one{width:360px;height:360px;background:rgba(56,213,255,.30);left:-120px;top:40px}
+    .orb.two{width:420px;height:420px;background:rgba(155,124,255,.25);right:-90px;bottom:-80px;animation-delay:1s}
+    .orb.three{width:230px;height:230px;background:rgba(72,242,176,.18);right:25%;top:10%;animation-delay:2s}
+    @keyframes float{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(30px,-30px,0) scale(1.08)}}
+    .stat{font-size:72px;font-weight:900;letter-spacing:-.06em;color:var(--ink);line-height:.9}.label{font-size:18px;color:var(--muted);margin-top:12px}
+    .quote{font-size:58px;line-height:1.05;font-weight:900;letter-spacing:-.05em;color:var(--ink)}
+    .quote small{display:block;font-size:23px;line-height:1.35;color:var(--muted);margin-top:22px;font-weight:500;letter-spacing:0}
+    .timeline{display:flex;align-items:center;gap:14px;margin-top:30px}.node{flex:1;position:relative;padding:22px 16px;text-align:center;border-radius:24px;border:1px solid var(--line);background:rgba(255,255,255,.07);font-size:21px;font-weight:800}.node:after{content:"→";position:absolute;right:-22px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:30px}.node:last-child:after{content:""}.node.active{background:linear-gradient(135deg,rgba(56,213,255,.26),rgba(155,124,255,.24));border-color:rgba(56,213,255,.55)}
+    .pipeline{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:30px}.step{min-height:140px;border-radius:24px;border:1px solid var(--line);padding:20px;background:rgba(255,255,255,.065);position:relative;overflow:hidden}.step b{display:block;font-size:20px;margin-bottom:10px}.step span{font-size:15px;color:var(--muted);line-height:1.28;display:block}.step:before{content:"";position:absolute;inset:auto 0 0;height:4px;background:linear-gradient(90deg,var(--cyan),var(--green),var(--violet));transform:scaleX(0);transform-origin:left}.present .step:before{animation:load 1.4s ease forwards}.present .step:nth-child(2):before{animation-delay:.15s}.present .step:nth-child(3):before{animation-delay:.3s}.present .step:nth-child(4):before{animation-delay:.45s}.present .step:nth-child(5):before{animation-delay:.6s}.present .step:nth-child(6):before{animation-delay:.75s}@keyframes load{to{transform:scaleX(1)}}
+    .flow{display:grid;grid-template-columns:1.1fr .8fr 1.1fr;gap:26px;align-items:stretch;margin-top:22px}.flowbox{border-radius:28px;border:1px solid var(--line);padding:26px;background:rgba(255,255,255,.06)}.flowbox h3{font-size:30px;margin-bottom:18px}.flow ul{list-style:none;margin:0;padding:0}.flow li{font-size:22px;color:var(--muted);margin:13px 0;padding-left:28px;position:relative}.flow li:before{content:"✦";position:absolute;left:0;color:var(--green)}
+    .arrowBig{display:flex;align-items:center;justify-content:center;font-size:76px;color:var(--cyan);filter:drop-shadow(0 0 30px rgba(56,213,255,.5))}
+    .agent-demo{background:#06111f;border:1px solid rgba(56,213,255,.25);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.5);overflow:hidden}.demo-top{height:42px;background:rgba(255,255,255,.08);display:flex;align-items:center;padding:0 16px;gap:8px}.dot{width:12px;height:12px;border-radius:50%;background:#ff5f57}.dot:nth-child(2){background:#ffbd2e}.dot:nth-child(3){background:#28c840}.demo-body{padding:24px;font-family:'JetBrains Mono',monospace;font-size:18px;line-height:1.55;color:#d8e7ff;min-height:340px}.prompt{color:var(--green)}.agent{color:var(--cyan)}.decision{color:var(--amber)}
+    .heatmap{display:grid;grid-template-columns:repeat(9,1fr);gap:8px}.cell{aspect-ratio:1;border-radius:10px;background:rgba(56,213,255,.07);border:1px solid rgba(255,255,255,.06);animation:pulse 2.2s ease-in-out infinite}.cell:nth-child(3n){background:rgba(155,124,255,.18);animation-delay:.3s}.cell:nth-child(4n){background:rgba(72,242,176,.2);animation-delay:.6s}.cell:nth-child(7n){background:rgba(255,209,102,.22);animation-delay:.9s}@keyframes pulse{50%{transform:scale(.96);filter:brightness(1.35)}}
+    .caret{animation:caretBlink 1s step-end infinite}
+    @keyframes caretBlink{50%{opacity:0}}
+    .iframeWrap{position:relative;width:100%;height:580px;border-radius:28px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#000}.iframeWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:30px}.compare .bad{border-color:rgba(255,92,138,.35)}.compare .good{border-color:rgba(72,242,176,.35)}.compare h3{font-size:34px}.compare li{font-size:24px;margin:16px 0;color:var(--muted)}
+    .progress-line{height:5px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--green));border-radius:99px;margin:20px 0 0;transform-origin:left}.present .progress-line{animation:grow 1.6s ease forwards}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+    .reveal .progress{color:var(--cyan)}
+    .reveal .slide-number{font-family:'JetBrains Mono',monospace;font-size:14px;color:rgba(255,255,255,.55)}
+    .footer{position:absolute;bottom:22px;left:48px;right:48px;display:flex;justify-content:space-between;color:#60708a;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+    /* Cinematic opening: cold-open video + 7 full-bleed image beats */
+    .reveal.cinematic-mode .controls,
+    .reveal.cinematic-mode .progress,
+    .reveal.cinematic-mode .slide-number{opacity:0;pointer-events:none;transition:opacity .3s ease;}
+    .reveal section.coldopen,.reveal section.cine{position:relative;padding:0;background:#000;overflow:hidden;}
+    .cine-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);width:100px;height:100px;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.08);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .6s ease,transform .3s ease,background .2s ease;z-index:6;}
+    .cine-play.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+    .cine-play:hover{background:rgba(255,255,255,.16);transform:translate(-50%,-50%) scale(1.06);}
+    .cine-play:after{content:"";border-style:solid;border-width:13px 0 13px 21px;border-color:transparent transparent transparent #fff;margin-left:7px;}
+    .cine-error{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;background:#000;z-index:7;}
+    .cine-error.show{display:flex;}
+    .cine-error p{font-size:22px;color:var(--muted);margin:0;}
+    .cine-error .pill:hover{background:rgba(255,255,255,.16);}
+    .cine-scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(2,4,10,.88) 0%,rgba(2,4,10,.4) 32%,rgba(2,4,10,0) 60%),linear-gradient(180deg,rgba(2,4,10,.3) 0%,rgba(2,4,10,0) 20%);}
+    .cine-caption{position:absolute;left:0;right:0;bottom:0;padding:0 72px 72px;z-index:2;opacity:0;}
+    .present .cine-caption{animation:cineCaptionIn 1.4s ease .5s forwards;}
+    @keyframes cineCaptionIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .cine-eyebrow{font-size:17px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:16px;}
+    .cine-headline{font-size:54px;font-weight:600;letter-spacing:-.01em;line-height:1.18;color:#fff;max-width:900px;}
+    .cine-headline+.cine-headline{margin-top:2px;color:rgba(255,255,255,.72);font-size:34px;font-weight:500;}
+    @media (prefers-reduced-motion: reduce){
+      .orb,.cell,.step:before,.progress-line,.caret{animation:none !important;}
+      .cine-caption{animation:none;opacity:1;}
+    }
+    .watch-later{display:flex;gap:26px;align-items:center;margin-top:26px}
+    .watch-later img{width:280px;border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow);flex-shrink:0}
+    .watch-later .meta p{margin:0 0 10px}
+    .fallback-overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:#06111f;border-radius:28px;padding:30px;text-align:center;z-index:3}
+    .fallback-overlay.show{display:flex}
+    .fallback-note{position:absolute;top:14px;right:14px;z-index:4;cursor:pointer;border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:6px 14px;background:rgba(0,0,0,.4);color:var(--muted);font-size:12px;font-weight:700;}
+    .fallback-note:hover{color:var(--ink);border-color:rgba(255,255,255,.5)}
+    @media(max-width:900px){.reveal h1{font-size:54px}.reveal h2{font-size:42px}.grid2,.grid3,.grid4,.compare,.flow{grid-template-columns:1fr}.pipeline{grid-template-columns:1fr 1fr}.reveal p{font-size:21px}.big{font-size:32px}.iframeWrap{height:360px}.watch-later{flex-direction:column;align-items:flex-start}.watch-later img{width:100%}.cine-caption{padding:0 32px 40px}.cine-headline{font-size:34px}.cine-headline+.cine-headline{font-size:22px}.cine-eyebrow{font-size:14px}.cine-play{width:76px;height:76px}}
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section
+  class="coldopen"
+  id="coldopen"
+  data-background-video="Alex_AI_Agent_Cinematic_Sequence.mp4"
+  data-background-video-muted
+  data-background-size="cover"
+  data-transition="fade"
+  data-transition-speed="slow">
+  <div class="cine-play" id="cinePlay" role="button" aria-label="Play"></div>
+  <div class="cine-error" id="coldopenError">
+    <p>The opening film couldn't load.</p>
+    <div class="pill" id="coldopenContinue" role="button" style="cursor:pointer">Continue →</div>
+  </div>
+  <aside class="notes">
+    THE FILM STARTS HERE. Say one line as you start it — "Let me show you something before we begin" — then go silent for the next ~2-3 minutes. This cold open plus the seven images that follow are a silent cinematic sequence, not slides to talk over. It's a Reveal.js native background video: autoplays muted, pauses automatically when you leave the slide, replays from the start if you return to it. A glass play button appears center-screen only if the browser blocks autoplay. It auto-advances into Image 1 when it ends. If the video file fails to load entirely, an elegant "couldn't load / Continue →" message appears automatically instead of a dead black screen — click Continue to move on to Image 1. Reveal's own on-screen controls/progress bar are hidden for the entire sequence (coldopen through Image 7) for a clean, chrome-free look — they return automatically at the title slide. Each image after this auto-advances on its own (about 7s) with a one-line caption; press the right arrow at any time to skip ahead manually if something isn't working — that's your safety net, not a normal way to run it.
+  </aside>
+</section>
+
+<section
+  class="cine"
+  aria-label="Alex arriving at his office at sunrise, city skyline through floor-to-ceiling windows, monitors still dark"
+  data-background-image="ChatGPT Image 1.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-eyebrow">06:00</div>
+    <div class="cine-headline">The office wakes up.</div>
+  </div>
+  <aside class="notes">
+    Silent. Let the timestamp do the work. If you say anything at all, one quiet line: "Six AM. Every day, the same way."
+  </aside>
+</section>
+
+<section
+  class="cine alt"
+  aria-label="Alex standing at his desk, three monitors beginning to wake with a notification dialog"
+  data-background-image="ChatGPT Image 2.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">Dashboards everywhere.</div>
+  </div>
+  <aside class="notes">
+    Silent. Let this one breathe — it's the pivot from calm into the flood.
+  </aside>
+</section>
+
+<section
+  class="cine"
+  aria-label="Alex at his desk surrounded by dozens of floating notification and dashboard cards"
+  data-background-image="ChatGPT Image 3.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">Alerts. Emails. Notifications.</div>
+  </div>
+  <aside class="notes">
+    Silent. The floating cards are deliberately dense and hard to read — that's the point, don't apologize for it.
+  </aside>
+</section>
+
+<section
+  class="cine alt"
+  aria-label="Alex surrounded by an overwhelming wall of critical alerts, KPI cards, and warning notifications"
+  data-background-image="ChatGPT Image 4.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">Stress. Confusion.</div>
+    <div class="cine-headline">No answers.</div>
+  </div>
+  <aside class="notes">
+    Silent. This is the emotional low point of the sequence — the peak of overload, right before the turn.
+  </aside>
+</section>
+
+<section
+  class="cine"
+  aria-label="Alex standing at the window, still searching for an answer, monitors dark behind him"
+  data-background-image="ChatGPT Image 5.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">Searching.</div>
+    <div class="cine-headline">Still no decisions.</div>
+  </div>
+  <aside class="notes">
+    Silent. A held breath before the turn — the quietest beat in the sequence.
+  </aside>
+</section>
+
+<section
+  class="cine alt"
+  aria-label="A clean, legible AI agent executive brief across three monitors: business performance, today's brief, and customer experience"
+  data-background-image="ChatGPT Image 6.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">The AI Agent appears.</div>
+    <div class="cine-headline">Silence. Hope.</div>
+  </div>
+  <aside class="notes">
+    Silent. This is the strongest image in the sequence — the moment everything resolves. Let it hold a beat longer than the others.
+  </aside>
+</section>
+
+<section
+  class="cine"
+  aria-label="Alex calm at a single clean screen, one clear dashboard, city skyline at sunrise behind him"
+  data-background-image="ChatGPT Image 7.jpg"
+  data-background-size="cover"
+  data-background-position="center"
+  data-background-repeat="no-repeat"
+  data-transition="fade"
+  data-transition-speed="slow"
+  data-autoslide="7000">
+  <div class="cine-scrim"></div>
+  <div class="cine-caption">
+    <div class="cine-headline">Transformation.</div>
+    <div class="cine-headline">One screen. One decision. Confidence.</div>
+  </div>
+  <aside class="notes">
+    Last silent beat — then it fades straight to the title slide. This is where you start talking again: the film has ended, the talk begins now.
+  </aside>
+</section>
+
+<section class="bg-grid" data-transition="zoom" data-auto-animate>
+  <div class="orb one"></div><div class="orb two"></div><div class="orb three"></div>
+  <div class="full">
+    <div class="kicker">AI Connect 2026 · Virtual Keynote</div>
+    <h1>Beyond Dashboards:<br><span class="accent">Deploying AI Agents</span> in Real Operations</h1>
+    <p class="sub">A practical, technology-neutral view of how organizations move from information overload to trusted, faster decisions.</p>
+    <div style="margin-top:30px"><span class="pill">30–40 min</span><span class="pill">Business + AI</span><span class="pill">No vendor pitch</span></div>
+  </div>
+  <div class="footer"><span>Mina George</span><span>AI Agents · Decisions · Governance</span></div>
+  <aside class="notes">
+    The film has just ended — this is where you start talking. Welcome the room. State the frame explicitly: business + AI, technology-neutral, no vendor pitch, 30–40 minutes. Don't summarize what the film showed; the audience just watched Alex live through it, they don't need it re-explained. Let the title breathe for a few seconds before continuing.
+  </aside>
+</section>
+
+<section class="bg-grid" data-transition="slide">
+  <div class="full center">
+    <div class="quote fragment fade-up">We built the most advanced reporting machines in history…<small class="fragment fade-up">and then asked humans to manually connect the dots.</small></div>
+  </div>
+  <aside class="notes">
+    Let this line land in silence — pause a full two seconds after the second half appears before advancing. It's the thesis statement for the whole talk, and it directly recaps what the audience just watched happen to Alex.
+  </aside>
+</section>
+
+<section class="bg-grid" data-transition="fade">
+  <div class="full">
+    <div class="kicker">Opening problem</div>
+    <h2>The dashboard paradox</h2>
+    <div class="grid3">
+      <div class="card fragment fade-up"><div class="stat">More</div><div class="label">data sources, reports, KPIs, alerts</div></div>
+      <div class="card fragment fade-up"><div class="stat">Less</div><div class="label">clarity, attention, ownership</div></div>
+      <div class="card fragment fade-up"><div class="stat">Slow</div><div class="label">decisions when context is scattered</div></div>
+    </div>
+    <p class="big fragment fade-up" style="margin-top:40px">The bottleneck is no longer access to data. It is the journey from <span class="cyan">signal</span> to <span class="green">action</span>.</p>
+  </div>
+  <aside class="notes">
+    This is the data-backed version of the point Alex's story just made narratively. Land hard on the last line: the bottleneck moved from data access to the signal-to-action journey.
+  </aside>
+</section>
+
+<section class="bg-grid" data-auto-animate>
+  <div class="full">
+    <div class="kicker">Evolution</div>
+    <h2>From systems of record to systems of action</h2>
+    <div class="timeline">
+      <div class="node">Records</div><div class="node">Reports</div><div class="node">Dashboards</div><div class="node">Predictions</div><div class="node active">Agents</div>
+    </div>
+    <p class="sub" style="margin-top:34px">Each era solved the previous pain. Agents are not “better dashboards.” They are a new operating layer for decisions and workflows.</p>
+  </div>
+  <aside class="notes">
+    Frame agents as a new operating layer, not an incremental dashboard upgrade — this is the pivot from "looking at information" to "acting on it," which is the core reframe for the rest of the talk.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Simple definition</div>
+    <h2>What is an AI agent?</h2>
+    <div class="flow">
+      <div class="flowbox fragment fade-right"><h3>Not just a chatbot</h3><ul><li>Answers questions</li><li>Summarizes documents</li><li>Generates text</li></ul></div>
+      <div class="arrowBig fragment zoom-in">→</div>
+      <div class="flowbox fragment fade-left"><h3 class="green">A decision worker</h3><ul><li>Understands a goal</li><li>Uses tools and data</li><li>Plans steps</li><li>Acts with controls</li></ul></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Contrast explicitly: chatbots answer, agents act. Point back to Alex — the agent didn't just describe the problem, it planned a step and recommended an action.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Operating model</div>
+    <h2>The agent loop</h2>
+    <div class="pipeline">
+      <div class="step"><b>Sense</b><span>Read events, documents, databases, messages, signals.</span></div>
+      <div class="step"><b>Reason</b><span>Interpret context and identify what matters.</span></div>
+      <div class="step"><b>Plan</b><span>Break the objective into controlled steps.</span></div>
+      <div class="step"><b>Act</b><span>Use approved tools, APIs, workflows, and forms.</span></div>
+      <div class="step"><b>Verify</b><span>Check results, explain logic, surface risk.</span></div>
+      <div class="step"><b>Learn</b><span>Capture feedback and improve the workflow.</span></div>
+    </div>
+    <div class="progress-line"></div>
+  </div>
+  <aside class="notes">
+    Walk left to right at a steady pace — this is the mental model the audience should carry into the architecture and governance slides later. Verify and Learn are easy to rush; don't — they're what earns trust.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Interactive model</div>
+    <h2>Quick visual bridge: how transformers “pay attention”</h2>
+    <p class="sub">This external explainer is useful for non-specialists: tokens, attention, probabilities, temperature, top-k and top-p sampling — visually and interactively.</p>
+    <div class="iframeWrap" id="transformerWrap">
+      <iframe id="transformerFrame" src="https://poloclub.github.io/transformer-explainer/" title="Interactive transformer attention explainer" allowfullscreen></iframe>
+      <div class="fallback-note" id="transformerToggle">Show offline version</div>
+      <div class="fallback-overlay" id="transformerFallback">
+        <div class="kicker" style="margin-bottom:14px">Offline fallback</div>
+        <h3 style="margin-bottom:16px">What the live tool shows</h3>
+        <p class="sub" style="max-width:640px;margin:0 auto 18px">Transformer Explainer (Polo Club of Data Science, Georgia Tech) is an interactive GPT-2 visualization. Type a prompt and watch it split into tokens, see the attention weights showing which tokens the model focuses on, then adjust temperature, top-k, and top-p to see the effect on the next-token probability distribution in real time.</p>
+        <div><span class="pill">Prompt → Tokens</span><span class="pill">→ Attention weights</span><span class="pill">→ Temperature / top-k / top-p</span><span class="pill">→ Next token</span></div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Live embed of poloclub.github.io/transformer-explainer — requires internet at the venue. Confirm connectivity during tech check. A static offline fallback auto-appears if the tool hasn't loaded within 5 seconds or the browser reports no connection; click "Show offline version" / "Try live version" (top-right of the frame) to switch manually at any time. Use the live tool briefly as a visual aid for non-specialists on tokens/attention/sampling; don't over-explain the mechanics — keep this under 2 minutes.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Optional deeper dive</div>
+    <h2>Same team, more depth — watch it after the session</h2>
+    <p class="sub">Polo Club of Data Science (Georgia Tech) — the team behind the interactive explainer you just saw — also published a full video walkthrough of transformer architecture. It covers the same ground in more depth, so it belongs in your own time, not on stage.</p>
+    <div class="watch-later">
+      <img src="yt-thumb-ECR4oAwocjs.jpg" alt="Thumbnail for the YouTube video Transformers Explained Visually by Polo Club of Data Science, Georgia Tech">
+      <div class="meta">
+        <p class="big" style="margin-bottom:6px">“Transformers Explained Visually: Learn How LLM Transformer Models Work”</p>
+        <p class="tiny" style="margin-bottom:14px">Polo Club of Data Science · Georgia Tech</p>
+        <a href="https://www.youtube.com/watch?v=ECR4oAwocjs" target="_blank" rel="noopener" class="pill" style="text-decoration:none">Watch on YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    The original deck embedded this video live as a 60–90 second "reset," but it turned out to be the same Polo Club team's full transformer explainer — redundant with the interactive tool on the previous slide, and almost certainly much longer than 60–90 seconds. Replaced the live embed with this static take-home card: no duplicate content on stage, and no second live-internet dependency (this slide now has zero network requirement — the thumbnail is a local file). Mention it briefly, 10–15 seconds, then move on to "weak vs strong approach."
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">The key distinction</div>
+    <h2>AI agents are not a technology project</h2>
+    <div class="compare">
+      <div class="card bad fragment fade-right"><h3 class="rose">Weak approach</h3><ul><li>Start with a model</li><li>Demo first, governance later</li><li>Automate everything</li><li>Measure excitement</li></ul></div>
+      <div class="card good fragment fade-left"><h3 class="green">Strong approach</h3><ul><li>Start with a decision</li><li>Design controls upfront</li><li>Automate safely</li><li>Measure business outcomes</li></ul></div>
+    </div>
+  </div>
+  <aside class="notes">
+    This is the credibility slide — make clear which mistakes you've personally seen. Strong-approach items map directly to the four gates slide coming later.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">General use cases</div>
+    <h2>Where agents create value</h2>
+    <div class="grid3">
+      <div class="flat fragment fade-up"><h3>Decision briefing</h3><p>Daily executive summary from multiple systems with anomalies, risks, and suggested priorities.</p></div>
+      <div class="flat fragment fade-up"><h3>Operational triage</h3><p>Detect issues, classify urgency, assign ownership, and recommend next action.</p></div>
+      <div class="flat fragment fade-up"><h3>Knowledge assistant</h3><p>Answer policy, process, compliance, and technical questions from trusted internal knowledge.</p></div>
+      <div class="flat fragment fade-up"><h3>Workflow copilots</h3><p>Prepare forms, emails, approvals, tickets, and handoffs with human confirmation.</p></div>
+      <div class="flat fragment fade-up"><h3>Customer operations</h3><p>Understand intent, retrieve context, resolve common issues, escalate complex cases.</p></div>
+      <div class="flat fragment fade-up"><h3>Risk monitoring</h3><p>Watch for drift, unusual behavior, policy gaps, financial risk, and compliance exposure.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Move quickly here — six cards in under two minutes. Pick one or two that most resonate with this specific audience and give a 10-second real-world flavor; don't read all six verbatim.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Live-style demo</div>
+    <h2>An agent experience should feel like this</h2>
+    <div class="agent-demo">
+      <div class="demo-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+      <div class="demo-body" id="typedDemo"></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Typewriter effect runs once automatically the first time this slide is shown. Stay silent while it types — let the audience read it. The key beat is the last line: "No action executed yet. Human approval required" — that's the trust argument in miniature. (This mirrors Image 6's "Today's Executive Brief" mock used earlier in the Alex story — call that back if it lands well.)
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Architecture</div>
+    <h2>Reference architecture: technology neutral</h2>
+    <div class="pipeline" style="grid-template-columns:repeat(5,1fr)">
+      <div class="step"><b>Business systems</b><span>ERP, CRM, HR, finance, operations, documents, email.</span></div>
+      <div class="step"><b>Trusted data layer</b><span>Quality, lineage, master data, permissions, semantic meaning.</span></div>
+      <div class="step"><b>Agent layer</b><span>Planning, memory, retrieval, tool use, orchestration.</span></div>
+      <div class="step"><b>Control layer</b><span>Policies, approval, audit, security, evaluation, monitoring.</span></div>
+      <div class="step"><b>Action layer</b><span>Tickets, recommendations, workflows, API actions, alerts.</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Technology-neutral on purpose — resist naming specific vendors/products here. Business systems → trusted data → agent layer → control layer → action layer. This is the architecture Alex's agent sits on.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Trust</div>
+    <h2>Trust is engineered, not wished into existence</h2>
+    <div class="grid4">
+      <div class="card fragment zoom-in"><h3 class="cyan">Evidence</h3><p>Show sources, facts, and confidence.</p></div>
+      <div class="card fragment zoom-in"><h3 class="green">Approval</h3><p>Human control before sensitive action.</p></div>
+      <div class="card fragment zoom-in"><h3 class="amber">Audit</h3><p>Record prompts, tools, outputs, decisions.</p></div>
+      <div class="card fragment zoom-in"><h3 class="rose">Limits</h3><p>Clear boundaries for what the agent cannot do.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Say the headline verbatim: "Trust is engineered, not wished into existence." Each card is a design requirement, not a nice-to-have.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Governance</div>
+    <h2>The four gates before production</h2>
+    <div class="grid2">
+      <div class="card fragment fade-right"><h3>1. Value gate</h3><p>What decision improves? What cost, risk, or delay is reduced?</p></div>
+      <div class="card fragment fade-left"><h3>2. Data gate</h3><p>Is the data accurate, governed, and authorized for this use?</p></div>
+      <div class="card fragment fade-right"><h3>3. Risk gate</h3><p>What can go wrong? What approval is required?</p></div>
+      <div class="card fragment fade-left"><h3>4. Adoption gate</h3><p>Who will use it, trust it, and own the outcome?</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    These are the four questions a project must answer before it reaches production. Consider inviting the room to silently apply gate 1 to their own slowest decision — it sets up the Q&A discussion prompts slide later.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Reality check</div>
+    <h2>What usually fails</h2>
+    <div class="grid3">
+      <div class="flat fragment fade-up"><h3>“Cool demo” syndrome</h3><p>The prototype is impressive, but nobody knows which decision it improves.</p></div>
+      <div class="flat fragment fade-up"><h3>Unclear ownership</h3><p>IT owns the tool, business owns the pain, nobody owns the outcome.</p></div>
+      <div class="flat fragment fade-up"><h3>Silent risk</h3><p>The agent acts without enough policy, permissions, evaluation, or audit trail.</p></div>
+    </div>
+    <p class="big fragment fade-up" style="margin-top:36px">Agents fail quietly when organizations treat them as features instead of operating capabilities.</p>
+  </div>
+  <aside class="notes">
+    Reality-check slide — shift tone slightly more candid/serious here. Land on the closing line: agents fail quietly when treated as features instead of operating capabilities.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Implementation roadmap</div>
+    <h2>90-day path to a credible pilot</h2>
+    <div class="timeline" style="align-items:stretch">
+      <div class="node active">Days 1–15<br><small>Pick one decision</small></div>
+      <div class="node active">Days 16–30<br><small>Prepare trusted data</small></div>
+      <div class="node active">Days 31–55<br><small>Build controlled agent</small></div>
+      <div class="node active">Days 56–75<br><small>Test against real cases</small></div>
+      <div class="node active">Days 76–90<br><small>Launch with metrics</small></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Concrete and actionable — this is the slide skeptical operators remember. Keep pace brisk: five beats in under a minute.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Measurement</div>
+    <h2>Measure decisions, not prompts</h2>
+    <div class="grid4">
+      <div class="card fragment fade-up"><div class="stat">↓</div><div class="label">Cycle time</div></div>
+      <div class="card fragment fade-up"><div class="stat">↑</div><div class="label">Decision quality</div></div>
+      <div class="card fragment fade-up"><div class="stat">↓</div><div class="label">Manual effort</div></div>
+      <div class="card fragment fade-up"><div class="stat">↑</div><div class="label">User trust</div></div>
+    </div>
+  </div>
+  <aside class="notes">
+    "Measure decisions, not prompts" — the point is that usage metrics (queries, tokens) are vanity metrics. These four are the ones a CFO cares about.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full center">
+    <div class="kicker">The future</div>
+    <h2 style="text-align:center">The next generation of business intelligence is not another dashboard.</h2>
+    <div class="heatmap" style="width:520px;margin:26px auto 0"></div>
+    <p class="big fragment fade-up" style="margin-top:34px;text-align:center;max-width:960px">It is a network of trusted agents that watch, reason, recommend, and act — with humans still holding the steering wheel.</p>
+  </div>
+  <aside class="notes">
+    Vision slide — read the closing line slowly: "a network of trusted agents that watch, reason, recommend, and act — with humans still holding the steering wheel."
+  </aside>
+</section>
+
+<section class="bg-grid" data-transition="zoom">
+  <div class="full center">
+    <div class="quote">The winners will not have the most dashboards.<small>They will have the fastest trusted decisions.</small></div>
+  </div>
+  <aside class="notes">
+    Second cold quote — pair it mentally with the opening quote. Full pause before advancing to Q&amp;A.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full">
+    <div class="kicker">Q&A</div>
+    <h2>Discussion prompts</h2>
+    <div class="grid2">
+      <div class="card"><h3>Where is your slowest decision?</h3><p>Find the bottleneck before choosing the agent.</p></div>
+      <div class="card"><h3>What action needs human approval?</h3><p>Design the control before building the automation.</p></div>
+      <div class="card"><h3>What data can be trusted?</h3><p>An agent is only as strong as its operating context.</p></div>
+      <div class="card"><h3>What outcome proves value?</h3><p>Adoption follows measurable usefulness.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Use these four questions to open the floor rather than waiting for hands — cold-call gently if the room is quiet. "Where is your slowest decision?" ties directly back to the four-gates slide.
+  </aside>
+</section>
+
+<section class="bg-grid">
+  <div class="full center">
+    <h2>Thank you</h2>
+    <p class="sub" style="text-align:center">Mina George · AI Connect 2026</p>
+    <div style="margin-top:26px"><span class="pill">LinkedIn</span><span class="pill">Q&A</span><span class="pill">Discussion</span></div>
+  </div>
+  <aside class="notes">
+    Confirm LinkedIn/contact details are current before presenting live.
+  </aside>
+</section>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/zoom/zoom.js"></script>
+<script>
+  Reveal.initialize({
+    hash:true, controls:true, progress:true, slideNumber:'c/t', center:false,
+    transition:'slide', backgroundTransition:'fade', controlsTutorial:false,
+    width:1280, height:720, margin:0.04,
+    plugins:[RevealNotes, RevealZoom]
+  });
+
+  (function(){
+    const coldopenSection = document.getElementById('coldopen');
+    const playBtn = document.getElementById('cinePlay');
+    const errorEl = document.getElementById('coldopenError');
+    const continueBtn = document.getElementById('coldopenContinue');
+    if(!coldopenSection) return;
+    function isCurrent(){ return Reveal.getCurrentSlide() === coldopenSection; }
+    function goNext(){ if(isCurrent()) Reveal.next(); }
+
+    let video = null;
+    function getVideo(){
+      if(video) return video;
+      const bg = Reveal.getSlideBackground(coldopenSection);
+      video = bg ? bg.querySelector('video') : null;
+      if(video){
+        video.addEventListener('ended', goNext);
+        video.addEventListener('error', showError);
+        video.addEventListener('playing', () => {
+          if(errorEl) errorEl.classList.remove('show');
+          if(playBtn) playBtn.classList.remove('show');
+        });
+      }
+      return video;
+    }
+    function showError(){
+      if(playBtn) playBtn.classList.remove('show');
+      if(errorEl) errorEl.classList.add('show');
+    }
+    function attemptPlay(){
+      const v = getVideo();
+      if(!v){ showError(); return; }
+      if(errorEl) errorEl.classList.remove('show');
+      const p = v.play();
+      if(p && p.catch) p.catch(() => { if(playBtn) playBtn.classList.add('show'); });
+    }
+    if(playBtn) playBtn.addEventListener('click', attemptPlay);
+    if(continueBtn) continueBtn.addEventListener('click', goNext);
+    Reveal.on('ready', () => { if(isCurrent()) attemptPlay(); });
+    Reveal.on('slidechanged', e => {
+      if(e.currentSlide === coldopenSection){
+        if(errorEl) errorEl.classList.remove('show');
+        if(playBtn) playBtn.classList.remove('show');
+        const v = getVideo();
+        if(v){ try{ v.currentTime = 0; }catch(err){} }
+        attemptPlay();
+      } else if(e.previousSlide === coldopenSection){
+        const v = getVideo();
+        if(v) v.pause();
+      }
+    });
+  })();
+
+  (function(){
+    const reveal = document.querySelector('.reveal');
+    function syncCinematicMode(slide){
+      const isCine = !!slide && (slide.id === 'coldopen' || slide.classList.contains('cine'));
+      reveal.classList.toggle('cinematic-mode', isCine);
+    }
+    Reveal.on('ready', e => syncCinematicMode(e.currentSlide));
+    Reveal.on('slidechanged', e => syncCinematicMode(e.currentSlide));
+  })();
+
+  (function(){
+    const frame = document.getElementById('transformerFrame');
+    const fallback = document.getElementById('transformerFallback');
+    const toggle = document.getElementById('transformerToggle');
+    if(!frame || !fallback || !toggle) return;
+    let loaded = false, manualOverride = null;
+    frame.addEventListener('load', () => { loaded = true; });
+    function applyState(){
+      const shouldFallback = manualOverride !== null ? manualOverride : (!navigator.onLine || !loaded);
+      fallback.classList.toggle('show', shouldFallback);
+      toggle.textContent = shouldFallback ? 'Try live version' : 'Show offline version';
+    }
+    toggle.addEventListener('click', () => { manualOverride = !fallback.classList.contains('show'); applyState(); });
+    window.addEventListener('online', applyState);
+    window.addEventListener('offline', applyState);
+    setTimeout(() => { if(manualOverride === null) applyState(); }, 5000);
+  })();
+
+  const cells = document.querySelector('.heatmap');
+  if(cells){ for(let i=0;i<81;i++){ const d=document.createElement('div'); d.className='cell'; cells.appendChild(d); }}
+
+  const demoLines = [
+    '<span class="prompt">User:</span> What changed overnight, and what should we do first?',
+    '<span class="agent">Agent:</span> I found three meaningful signals across operations, finance, and customer feedback.',
+    '1) Demand increased in two regions, but supply coverage is below threshold.',
+    '2) Customer complaints mention delivery delay more than usual.',
+    '3) One high-value process is waiting on approval for 18 hours.',
+    '<span class="decision">Recommended action:</span> Approve the pending workflow, reassign capacity, and notify the accountable owners.',
+    '<span class="agent">Control:</span> No action executed yet. Human approval required.'
+  ];
+  let typedOnce=false;
+  Reveal.on('slidechanged', e => {
+    const el=document.getElementById('typedDemo');
+    if(!el) return;
+    if(e.currentSlide && e.currentSlide.contains(el) && !typedOnce){
+      typedOnce=true; el.innerHTML=''; let li=0, ci=0;
+      function type(){
+        if(li>=demoLines.length) return;
+        const line=demoLines[li];
+        el.innerHTML = demoLines.slice(0,li).join('<br>') + (li?'<br>':'') + line.slice(0,ci) + '<span class="caret" style="color:#48f2b0">▌</span>';
+        ci++;
+        if(ci<=line.length){ setTimeout(type,18); }
+        else { li++; ci=0; setTimeout(type,420); }
+      }
+      type();
+    }
+  });
+</script>
+</body>
+</html>
