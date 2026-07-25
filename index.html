@@ -66,7 +66,7 @@
     .heatmap{display:grid;grid-template-columns:repeat(9,1fr);gap:8px}.cell{aspect-ratio:1;border-radius:10px;background:rgba(56,213,255,.07);border:1px solid rgba(255,255,255,.06);animation:pulse 2.2s ease-in-out infinite}.cell:nth-child(3n){background:rgba(155,124,255,.18);animation-delay:.3s}.cell:nth-child(4n){background:rgba(72,242,176,.2);animation-delay:.6s}.cell:nth-child(7n){background:rgba(255,209,102,.22);animation-delay:.9s}@keyframes pulse{50%{transform:scale(.96);filter:brightness(1.35)}}
     .caret{animation:caretBlink 1s step-end infinite}
     @keyframes caretBlink{50%{opacity:0}}
-    .iframeWrap{position:relative;width:100%;height:580px;border-radius:28px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#000}.iframeWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    /* .iframeWrap{position:relative;width:100%;height:580px;border-radius:28px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#000}.iframeWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0} */
     .compare{display:grid;grid-template-columns:1fr 1fr;gap:30px}.compare .bad{border-color:rgba(255,92,138,.35)}.compare .good{border-color:rgba(72,242,176,.35)}.compare h3{font-size:34px}.compare li{font-size:24px;margin:16px 0;color:var(--muted)}
     .progress-line{height:5px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--green));border-radius:99px;margin:20px 0 0;transform-origin:left}.present .progress-line{animation:grow 1.6s ease forwards}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
     .reveal .progress{color:var(--cyan)}
@@ -193,7 +193,165 @@
   .final-message {
       margin-bottom: 25px;
   }
+
+
+  /* BRIDGE SLIDE */
+
+.bridge-slide {
+    text-align: center !important;
+}
+
+.bridge-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.bridge-small {
+    font-size: 29px;
+    color: var(--muted);
+    margin-bottom: 25px;
+    letter-spacing: 0.04em;
+}
+
+.bridge-slide h2 {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 76px;
+    line-height: 1.08;
+}
+
+
+/* SPEAKER INTRODUCTION SLIDE */
+
+.speaker-intro-slide {
+    padding: 50px 70px !important;
+}
+
+.speaker-intro-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 65px;
+    width: 100%;
+    height: 100%;
+}
+
+.speaker-intro-main h1 {
+    font-size: 74px;
+    line-height: 1;
+    margin-bottom: 26px;
+}
+
+.speaker-role {
+    font-size: 34px !important;
+    font-weight: 700;
+    color: var(--ink) !important;
+    margin-bottom: 10px !important;
+}
+
+.speaker-company {
+    font-size: 25px !important;
+    color: var(--cyan) !important;
+    margin-bottom: 36px !important;
+}
+
+.speaker-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.speaker-intro-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.speaker-card {
+    min-height: 190px;
+    padding: 25px;
+    border-radius: 25px;
+    border: 1px solid var(--line);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.12),
+            rgba(255,255,255,0.04)
+        );
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.speaker-card-number {
+    font-size: 58px;
+    line-height: 1;
+    font-weight: 900;
+    color: var(--green);
+    margin-bottom: 17px;
+}
+
+.speaker-card-icon {
+    font-size: 43px;
+    margin-bottom: 17px;
+}
+
+.speaker-card-label {
+    font-size: 19px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+ .iframeWrap {
+    position: relative;
+    width: 100%;
+    height: 515px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    background: #ffffff;
+}
+
+.iframeWrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #ffffff;
+}
+
+.transformer-live-slide {
+    padding: 24px 40px !important;
+}
+
+.transformer-live-slide .full {
+    justify-content: flex-start;
+}
+
+.transformer-live-slide .kicker {
+    margin-bottom: 8px;
+}
+
+.transformer-live-slide h2 {
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 10px;
+    max-width: none;
+}
+
+.transformer-live-slide .sub {
+    font-size: 19px;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    max-width: none;
+}
   
+ 
   </style>
 </head>
 <body>
@@ -242,144 +400,127 @@
     THE FILM STARTS HERE. Say one line as you start it — "Let me show you something before we begin" — then go silent for the next ~2-3 minutes. This cold open plus the seven images that follow are a silent cinematic sequence, not slides to talk over. It's a Reveal.js native background video: autoplays muted, pauses automatically when you leave the slide, replays from the start if you return to it. A glass play button appears center-screen only if the browser blocks autoplay. It auto-advances into Image 1 when it ends. If the video file fails to load entirely, an elegant "couldn't load / Continue →" message appears automatically instead of a dead black screen — click Continue to move on to Image 1. Reveal's own on-screen controls/progress bar are hidden for the entire sequence (coldopen through Image 7) for a clean, chrome-free look — they return automatically at the title slide. Each image after this auto-advances on its own (about 7s) with a one-line caption; press the right arrow at any time to skip ahead manually if something isn't working — that's your safety net, not a normal way to run it.
   </aside>
 </section>
-<!-- 
-<section
-  class="cine"
-  aria-label="Alex arriving at his office at sunrise, city skyline through floor-to-ceiling windows, monitors still dark"
-  data-background-image="ChatGPT Image 1.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-eyebrow">06:00</div>
-    <div class="cine-headline">The office wakes up.</div>
-  </div>
-  <aside class="notes">
-    Silent. Let the timestamp do the work. If you say anything at all, one quiet line: "Six AM. Every day, the same way."
-  </aside>
-</section> -->
-<!-- 
-<section
-  class="cine alt"
-  aria-label="Alex standing at his desk, three monitors beginning to wake with a notification dialog"
-  data-background-image="ChatGPT Image 2.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">Dashboards everywhere.</div>
-  </div>
-  <aside class="notes">
-    Silent. Let this one breathe — it's the pivot from calm into the flood.
-  </aside>
+ 
+
+<!-- BRIDGE SLIDE -->
+
+<section class="bg-grid bridge-slide" data-transition="fade">
+
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+
+    <div class="full center bridge-content">
+
+        <div class="bridge-small">
+            What if...
+        </div>
+
+        <h2>
+            every executive had an
+            <span class="accent">AI Chief of Staff?</span>
+        </h2>
+
+    </div>
+
+    <aside class="notes">
+        That is exactly the question I would like to explore with you today.
+    </aside>
+
 </section>
 
-<section
-  class="cine"
-  aria-label="Alex at his desk surrounded by dozens of floating notification and dashboard cards"
-  data-background-image="ChatGPT Image 3.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">Alerts. Emails. Notifications.</div>
-  </div>
-  <aside class="notes">
-    Silent. The floating cards are deliberately dense and hard to read — that's the point, don't apologize for it.
-  </aside>
+
+<!-- SPEAKER INTRODUCTION SLIDE -->
+
+<section class="bg-grid speaker-intro-slide" data-transition="fade">
+
+    <div class="orb one"></div>
+    <div class="orb three"></div>
+
+    <div class="speaker-intro-layout">
+
+        <div class="speaker-intro-main">
+
+            <div class="kicker">
+                Your Speaker
+            </div>
+
+            <h1>
+                Mina G. G. Helkany
+            </h1>
+
+            <p class="speaker-role">
+                Group Head of Data Science
+            </p>
+
+            <p class="speaker-company">
+                Trolley Holding · Kuwait & Saudia Arabia (Gulf Region)
+            </p>
+
+            <div class="speaker-tags">
+
+                <span class="pill">
+                    Data & AI Leadership
+                </span>
+
+                <span class="pill">
+                    Digital Transformation
+                </span>
+
+                <span class="pill">
+                    AI Agents
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="speaker-intro-cards">
+
+            <div class="speaker-card">
+                <div class="speaker-card-number">20+</div>
+                <div class="speaker-card-label">
+                    Years in Data, Technology and AI
+                </div>
+            </div>
+
+            <div class="speaker-card">
+                <div class="speaker-card-icon">🎓</div>
+                <div class="speaker-card-label">
+                    Doctoral Researcher in AI & Management
+                </div>
+            </div>
+
+            <div class="speaker-card">
+                <div class="speaker-card-icon">📄</div>
+                <div class="speaker-card-label">
+                    IEEE Published Researcher
+                </div>
+            </div>
+
+            <div class="speaker-card">
+                <div class="speaker-card-icon">⚙️</div>
+                <div class="speaker-card-label">
+                    Practical Enterprise AI Experience
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <aside class="notes">
+        Good morning everyone. My name is Mina G. G. Helkany.
+        I lead the Data Science function at Trolley Holding in Kuwait.
+        I am also pursuing my doctorate in AI and Management.
+        Over the last two decades, I have worked across data engineering,
+        analytics, artificial intelligence and digital transformation.
+        Today, I will share a practical, technology-neutral view of deploying
+        AI agents in real business operations.
+    </aside>
+
 </section>
 
-<section
-  class="cine alt"
-  aria-label="Alex surrounded by an overwhelming wall of critical alerts, KPI cards, and warning notifications"
-  data-background-image="ChatGPT Image 4.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">Stress. Confusion.</div>
-    <div class="cine-headline">No answers.</div>
-  </div>
-  <aside class="notes">
-    Silent. This is the emotional low point of the sequence — the peak of overload, right before the turn.
-  </aside>
-</section>
 
-<section
-  class="cine"
-  aria-label="Alex standing at the window, still searching for an answer, monitors dark behind him"
-  data-background-image="ChatGPT Image 5.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">Searching.</div>
-    <div class="cine-headline">Still no decisions.</div>
-  </div>
-  <aside class="notes">
-    Silent. A held breath before the turn — the quietest beat in the sequence.
-  </aside>
-</section>
-
-<section
-  class="cine alt"
-  aria-label="A clean, legible AI agent executive brief across three monitors: business performance, today's brief, and customer experience"
-  data-background-image="ChatGPT Image 6.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">The AI Agent appears.</div>
-    <div class="cine-headline">Silence. Hope.</div>
-  </div>
-  <aside class="notes">
-    Silent. This is the strongest image in the sequence — the moment everything resolves. Let it hold a beat longer than the others.
-  </aside>
-</section>
-
-<section
-  class="cine"
-  aria-label="Alex calm at a single clean screen, one clear dashboard, city skyline at sunrise behind him"
-  data-background-image="ChatGPT Image 7.jpg"
-  data-background-size="cover"
-  data-background-position="center"
-  data-background-repeat="no-repeat"
-  data-transition="fade"
-  data-transition-speed="slow"
-  data-autoslide="7000">
-  <div class="cine-scrim"></div>
-  <div class="cine-caption">
-    <div class="cine-headline">Transformation.</div>
-    <div class="cine-headline">One screen. One decision. Confidence.</div>
-  </div>
-  <aside class="notes">
-    Last silent beat — then it fades straight to the title slide. This is where you start talking again: the film has ended, the talk begins now.
-  </aside>
-</section> -->
 
 <section class="bg-grid" data-transition="zoom" data-auto-animate>
   <div class="orb one"></div><div class="orb two"></div><div class="orb three"></div>
@@ -387,13 +528,19 @@
     <div class="kicker">AI Connect 2026 · Virtual Keynote</div>
     <h1>Beyond Dashboards:<br><span class="accent">Deploying AI Agents</span> in Real Operations</h1>
     <p class="sub">A practical, technology-neutral view of how organizations move from information overload to trusted, faster decisions.</p>
-    <div style="margin-top:30px"><span class="pill">30–40 min</span><span class="pill">Business + AI</span><span class="pill">No vendor pitch</span></div>
+    <div style="margin-top:30px"><span class="pill">30–35 min</span><span class="pill">Business + AI</span><span class="pill">No vendor pitch</span></div>
   </div>
-  <div class="footer"><span>Mina George</span><span>AI Agents · Decisions · Governance</span></div>
+  <p></p>
+  <p></p>
+  <p></p>
+  <div class="footer"><span>Mina G. G. Helkany</span><span>AI Agents · Decisions · Governance</span></div>
   <aside class="notes">
     The film has just ended — this is where you start talking. Welcome the room. State the frame explicitly: business + AI, technology-neutral, no vendor pitch, 30–40 minutes. Don't summarize what the film showed; the audience just watched Alex live through it, they don't need it re-explained. Let the title breathe for a few seconds before continuing.
   </aside>
 </section>
+
+
+ 
 
 <section class="bg-grid" data-transition="slide">
   <div class="full center">
@@ -434,7 +581,7 @@
   </aside>
 </section>
 
-<section class="bg-grid">
+<!-- <section class="bg-grid">
   <div class="full">
     <div class="kicker">Simple definition</div>
     <h2>What is an AI agent?</h2>
@@ -447,7 +594,138 @@
   <aside class="notes">
     Contrast explicitly: chatbots answer, agents act. Point back to Alex — the agent didn't just describe the problem, it planned a step and recommended an action.
   </aside>
+</section> -->
+
+<!-- <section class="bg-grid transformer-slide">
+
+  <div class="transformer-header">
+
+    <div class="kicker">Interactive Model</div>
+
+    <h2>
+      How transformers
+      <span class="accent">pay attention</span>
+    </h2>
+
+    <p>
+      Tokens, attention, probabilities and sampling — visually.
+    </p>
+
+  </div>
+
+  <div class="transformer-frame" id="transformerWrap">
+
+    <iframe
+      id="transformerFrame"
+      src="https://poloclub.github.io/transformer-explainer/"
+      title="Interactive transformer attention explainer"
+      allowfullscreen>
+    </iframe>
+
+    <div class="fallback-note" id="transformerToggle">
+      Show offline version
+    </div>
+
+    <div class="fallback-overlay" id="transformerFallback">
+
+      <div class="kicker">Offline fallback</div>
+
+      <h3>What the live tool shows</h3>
+
+      <p>
+        Prompt → Tokens → Attention → Sampling → Next Token
+      </p>
+
+    </div>
+
+  </div>
+
+  <aside class="notes">
+    Use the live tool briefly. Keep this section under two minutes.
+  </aside>
+
 </section>
+ -->
+
+
+<section class="bg-grid transformer-live-slide">
+
+  <div class="full">
+
+    <div class="kicker">
+      Interactive Model
+    </div>
+
+    <h2>
+      Quick visual bridge:
+      how transformers
+      <span class="accent">“pay attention”</span>
+    </h2>
+
+    <p class="sub">
+      Tokens, attention, probabilities, temperature,
+      top-k and top-p sampling — visually and interactively.
+    </p>
+
+    <div class="iframeWrap" id="transformerWrap">
+
+      <iframe
+        id="transformerFrame"
+        src="https://poloclub.github.io/transformer-explainer/"
+        title="Interactive transformer attention explainer"
+        allow="fullscreen"
+        allowfullscreen>
+      </iframe>
+
+      <div
+        class="fallback-note"
+        id="transformerToggle">
+        Show offline version
+      </div>
+
+      <div
+        class="fallback-overlay"
+        id="transformerFallback">
+
+        <div class="kicker" style="margin-bottom:14px">
+          Offline fallback
+        </div>
+
+        <h3 style="margin-bottom:16px">
+          What the live tool shows
+        </h3>
+
+        <p
+          class="sub"
+          style="max-width:640px;margin:0 auto 18px">
+
+          Transformer Explainer is an interactive GPT-2
+          visualization showing tokens, attention weights,
+          sampling controls and next-token probabilities.
+
+        </p>
+
+        <div>
+          <span class="pill">Prompt → Tokens</span>
+          <span class="pill">→ Attention</span>
+          <span class="pill">→ Sampling</span>
+          <span class="pill">→ Next Token</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <aside class="notes">
+    Use the interactive model briefly.
+    Keep this demonstration under two minutes.
+  </aside>
+
+</section>  
+
+
 
 <section class="bg-grid">
   <div class="full">
@@ -468,7 +746,7 @@
   </aside>
 </section>
 
-<section class="bg-grid">
+<!-- <section class="bg-grid">
   <div class="full">
     <div class="kicker">Interactive model</div>
     <h2>Quick visual bridge: how transformers “pay attention”</h2>
@@ -487,9 +765,9 @@
   <aside class="notes">
     Live embed of poloclub.github.io/transformer-explainer — requires internet at the venue. Confirm connectivity during tech check. A static offline fallback auto-appears if the tool hasn't loaded within 5 seconds or the browser reports no connection; click "Show offline version" / "Try live version" (top-right of the frame) to switch manually at any time. Use the live tool briefly as a visual aid for non-specialists on tokens/attention/sampling; don't over-explain the mechanics — keep this under 2 minutes.
   </aside>
-</section>
+</section> -->
 
-<section class="bg-grid">
+<!-- <section class="bg-grid">
   <div class="full">
     <div class="kicker">Optional deeper dive</div>
     <h2>Same team, more depth — watch it after the session</h2>
@@ -506,7 +784,9 @@
   <aside class="notes">
     The original deck embedded this video live as a 60–90 second "reset," but it turned out to be the same Polo Club team's full transformer explainer — redundant with the interactive tool on the previous slide, and almost certainly much longer than 60–90 seconds. Replaced the live embed with this static take-home card: no duplicate content on stage, and no second live-internet dependency (this slide now has zero network requirement — the thumbnail is a local file). Mention it briefly, 10–15 seconds, then move on to "weak vs strong approach."
   </aside>
-</section>
+</section> -->
+
+
 
 <section class="bg-grid">
   <div class="full">
